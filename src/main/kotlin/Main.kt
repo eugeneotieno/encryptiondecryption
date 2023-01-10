@@ -1,13 +1,14 @@
 fun main() {
+    val target = readln()
     val str = readln()
     val shift = readln().toInt()
+    encryptDecryptUnicode(str, shift, target)
+}
 
+fun encryptDecryptUnicode(str: String, shift: Int, target: String) {
     val strArray = str.toCharArray()
     repeat(strArray.size) { index ->
-        val strElement = str[index]
-        if (strElement.isLetter()) {
-            strArray[index] = getShiftedLetter(strElement, shift)
-        }
+        strArray[index] = getShiftedLetterUnicode(str[index], shift, target)
     }
 
     var newStr = ""
@@ -16,6 +17,23 @@ fun main() {
     }
 
     println(newStr)
+}
+
+fun getShiftedLetterUnicode(letter: Char, shift: Int, target: String): Char {
+    val unicodePosition = letter.code
+    return when(target) {
+        "enc" -> {
+            var newUnicodePosition = unicodePosition + shift
+            if (newUnicodePosition > 255) newUnicodePosition = (newUnicodePosition - 256)
+            newUnicodePosition.toChar()
+        }
+
+        else -> {
+            var newUnicodePosition = unicodePosition - shift
+            if (newUnicodePosition < 0) newUnicodePosition = (255 - newUnicodePosition + 1)
+            newUnicodePosition.toChar()
+        }
+    }
 }
 
 fun getShiftedLetter(letter: Char, shift: Int): Char {
