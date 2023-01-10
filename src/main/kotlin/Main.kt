@@ -1,10 +1,12 @@
 fun main() {
-    val str = "we found a treasure!"
+    val str = readln()
+    val shift = readln().toInt()
+
     val strArray = str.toCharArray()
     repeat(strArray.size) { index ->
         val strElement = str[index]
         if (strElement.isLetter()) {
-            strArray[index] = getCorrespondingLetter(strElement)
+            strArray[index] = getShiftedLetter(strElement, shift)
         }
     }
 
@@ -14,6 +16,15 @@ fun main() {
     }
 
     println(newStr)
+}
+
+fun getShiftedLetter(letter: Char, shift: Int): Char {
+    val alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+    var newPosition = alphabet.indexOf(letter) + shift
+    if (newPosition > (alphabet.length - 1)) newPosition = (newPosition - alphabet.length)
+
+    return alphabet.elementAt(newPosition)
 }
 
 fun getCorrespondingLetter(letter: Char): Char {
